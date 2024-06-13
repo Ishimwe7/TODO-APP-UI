@@ -48,6 +48,39 @@
   .editForm .closeEdit:hover{
     cursor: pointer;
   }
+  .startTodo{
+    background-color: white;
+    width: 100px;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    color: black;
+    font-size: large;
+  }
+  .startTodo:nth-child(even){
+    background: #6A0DAD;
+  }
+  .progressTodo{
+    background-color: #28a745;
+    width: 100px;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    color: white;
+    font-size: large;
+  }
+  .doneTodo{
+    background-color: blue;
+    width: 100px;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    color: white;
+    font-size: large;
+  }
   .editForm {
     display: none;
     width: 88%;
@@ -174,3 +207,109 @@
     color: green;
     border-radius: 5px;
   }
+
+  /* Responsive Styles */
+@media (max-width: 1024px) {
+  .container {
+    width: 90%;
+  }
+
+  .form, .editForm {
+    flex-direction: column;
+    padding: 10px;
+    width: 100%;
+  }
+
+  .inputField {
+    width: 100%;
+  }
+
+  .todoItem {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .controlBtns {
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 768px) {
+  .todos {
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+    margin-top: 200px;
+  }
+
+  .container {
+    width: 90%;
+    padding: 10px;
+    margin-top: 20px;
+  }
+
+  .form, .editForm {
+    width: 90%;
+    padding: 10px;
+    position: relative;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+  }
+ .inputField{
+  width: 100%;
+ }
+  .button {
+    width: 78%;
+    padding: 10px;
+    margin-top: 10px;
+    margin: auto;
+  }
+
+  .todoList {
+    margin-top: 20px;
+    height: auto;
+  }
+
+  .todoItem {
+    width: 90%;
+    position: relative;
+  }
+  .todosData{
+    width: 95%;
+  }
+  .controlBtns {
+    position: absolute;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    top: 20px;
+    right: 20px;
+    width: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 5px;
+  }
+
+  .form, .editForm {
+    padding: 5px;
+  }
+
+  .button {
+    padding: 5px;
+    margin-top: 5px;
+  }
+
+  .todoItem {
+    padding: 5px;
+  }
+
+  .controlBtns {
+    gap: 5px;
+  }
+}

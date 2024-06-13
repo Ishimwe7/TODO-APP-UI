@@ -71,3 +71,87 @@
     background-color: #2f094b;
   }
   
+  /* Responsive Styles */
+@media (max-width: 1024px) {
+  .loginForm {
+    width: 50%;
+    padding: 15px;
+  }
+
+  .button {
+    width: 80%;
+    padding: 8px;
+    height: 35px;
+    font-size: medium;
+  }
+
+  .inputField {
+    width: 90%;
+    height: 28px;
+    padding: 8px;
+    font-size: medium;
+  }
+}
+
+@media (max-width: 768px) {
+  .loginForm {
+    width: 70%;
+    padding: 15px;
+    margin: 60px auto;
+  }
+
+  .formContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 350px;
+    min-height: 240px;
+    margin: auto;
+  }
+
+  .button {
+    width: 85%;
+    padding: 8px;
+    height: 35px;
+    font-size: medium;
+  }
+
+  .inputField {
+    width: 85%;
+    height: 28px;
+    padding: 8px;
+    font-size: medium;
+  }
+}
+
+@media (max-width: 480px) {
+  .loginForm {
+    width: 80%;
+    padding: 10px;
+    margin: 40px auto;
+    margin-top: 180px;
+  }
+
+  .button {
+    width: 100%;
+    padding: 6px;
+    height: 30px;
+    font-size: small;
+  }
+
+  .inputField {
+    width: 100%;
+    height: 25px;
+    padding: 6px;
+    font-size: small;
+  }
+
+  .loginForm p {
+    font-size: medium;
+  }
+
+  .error, .success {
+    font-size: medium;
+  }
+}

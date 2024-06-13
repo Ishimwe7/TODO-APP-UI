@@ -51,7 +51,7 @@ const Todos: React.FC = () => {
     status:''
   });
 
-  const { title, description } = formData;
+  //const { title, description } = formData;
   useEffect(() => {
     const fetchTodos = async () => {
       const response = await axios.get('/todos/getAllTodos', {
@@ -93,7 +93,7 @@ const Todos: React.FC = () => {
   };
 
   const closeEditForm = (e:React.MouseEvent) => {
-    e.p
+    e.preventDefault();
     const addForm = document.getElementById('addForm');
     const editForm = document.getElementById('editForm');
     if(editForm){
@@ -228,11 +228,14 @@ const Todos: React.FC = () => {
       </form>
        <ul className={styles.todoList}>
        {todos.length===0 && <h1 className={styles.noTodos}>NOTHING IN YOUR TODOS AT THE TIME !</h1>}
-        {todos.map(todo => (
+        {todos.map((todo) => (
           <li className={styles.todoItem} key={todo._id}>
             <div className={styles.todosData}>
               <h3>{todo.title}</h3>
               <p className={styles.todoDesc}>{todo.description}</p>
+              {todo.status==='Pending' && <button className={styles.startTodo}>Start</button>}
+              {todo.status==='In Progress' && <button className={styles.progressTodo}>Finish</button>}
+              {todo.status==='Completed' && <button disabled className={styles.doneTodo}>Completed</button>}
               <p className={styles.todoDate}>{todo.updatedAt}</p>
             </div>
             <div className={styles.controlBtns}>
