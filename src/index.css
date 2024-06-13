@@ -34,6 +34,7 @@ body {
 @media (prefers-color-scheme: light) {
   :root {
     color: black;
+    font-family:'Times New Roman', Times, serif;
     background: linear-gradient(to bottom, #25033d, #7e29ba);
   }
   a:hover {

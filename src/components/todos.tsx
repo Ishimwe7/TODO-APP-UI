@@ -2,19 +2,28 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from '../CSS/todos.module.css'
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashAlt,faEdit, faTimes} from '@fortawesome/free-solid-svg-icons';
+import SideBar from './siderBar';
 
 interface Todo {
   _id: string;
   title: string;
   description: string;
-  completed: boolean;
+  status: string;
+  updatedAt: string;
 }
 
 interface TodoFormData {
   title: string;
   description: string;
 }
-
+interface EditTodoFormData {
+  id:string;
+  title: string;
+  description: string;
+  status: string;
+}
 const Todos: React.FC = () => {
   const cookies = document.cookie;
   //const cookiesToken = document.cookie.split('jwt=')[1]
@@ -33,6 +42,13 @@ const Todos: React.FC = () => {
   const [formData, setFormData] = useState<TodoFormData>({
     title: '',
     description: ''
+  });
+
+  const [editFormData, setEditFormData] = useState<EditTodoFormData>({
+    id:'',
+    title: '',
+    description: '',
+    status:''
   });
 
   const { title, description } = formData;
@@ -55,10 +71,44 @@ const Todos: React.FC = () => {
     };
 
     fetchTodos();
-  }, []);
+  }, [loggedUser]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, [e.target.name]: e.target.value });
+  const onEditChange = (e: React.ChangeEvent<HTMLInputElement>) => setEditFormData({ ...editFormData, [e.target.name]: e.target.value });
+  const setEditData = (todo: Todo) => {
+    const addForm = document.getElementById('addForm');
+    const editForm = document.getElementById('editForm');
+    if(addForm){
+      addForm.style.display='none'
+    }
+    if(editForm){
+      editForm.style.display='flex'
+    }
+    setEditFormData({
+      id: todo._id,
+      title: todo.title,
+      description: todo.description,
+      status:todo.status
+    });
+  };
 
+  const closeEditForm = (e:React.MouseEvent) => {
+    e.p
+    const addForm = document.getElementById('addForm');
+    const editForm = document.getElementById('editForm');
+    if(editForm){
+      editForm.style.display='none'
+    }
+    if(addForm){
+      addForm.style.display='flex'
+    }
+    setEditFormData({
+      id: '',
+      title: '',
+      description: '',
+      status:''
+    });
+  };
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -68,6 +118,29 @@ const Todos: React.FC = () => {
         }
       });
       setTodos([...todos, response.data]);
+      setFormData({ title: '', description: '' });
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            console.error('Axios error:', error.response?.data || error.message);
+          } else if (error instanceof Error) {
+            console.error('General error:', error.message);
+          } else {
+            console.error('Unexpected error:', error);
+          }
+    }
+  };
+
+
+  const editTodo = async (e: React.FormEvent,id:string) => {
+    e.preventDefault();
+    try {
+      const response = await axios.put(`/todos/updateTodo/${id}`, editFormData, {
+        headers: {
+          Authorization: `Bearer ${loggedUser}`
+        }
+      });
+      setTodos([...todos, response.data]);
+      setEditFormData({id:'', title: '', description: '',status:'' });
     } catch (error) {
         if (axios.isAxiosError(error)) {
             console.error('Axios error:', error.response?.data || error.message);
@@ -99,39 +172,77 @@ const Todos: React.FC = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <form className={styles.form} onSubmit={onSubmit}>
+    <div className={styles.todos}>
+      <SideBar/>
+      <div className={styles.container}>
+      <form id='addForm' className={styles.form} onSubmit={onSubmit}>
+        <div className={styles.input}>
         <input
           className={styles.inputField}
           type="text"
           name="title"
-          value={title}
+          value={formData.title}
+          maxLength={50}
           onChange={onChange}
-          placeholder="Title"
+          placeholder="Add TODO Item Title"
           required
         />
         <input
           className={styles.inputField}
           type="text"
           name="description"
-          value={description}
+          value={formData.description}
+          maxLength={150}
           onChange={onChange}
-          placeholder="Description"
+          placeholder="Add TODO Item Description"
           required
         />
+        </div>
         <button className={styles.button} type="submit">Add Todo</button>
       </form>
-      <ul className={styles.todoList}>
+      <form id='editForm' className={styles.editForm} onSubmit={(e) => editTodo(e, editFormData.id)}>
+        <p onClick={(e)=>{closeEditForm(e)}} className={styles.closeEdit}><FontAwesomeIcon icon={faTimes} /></p>
+        <div className={styles.input}>
+        <input
+          className={styles.inputField}
+          type="text"
+          name="title"
+          value={editFormData.title}
+          maxLength={50}
+          onChange={onEditChange}
+          placeholder="Edit TODO Item Title"
+          required
+        />
+        <input
+          className={styles.inputField}
+          type="text"
+          name="description"
+          value={editFormData.description}
+          maxLength={150}
+          onChange={onEditChange}
+          placeholder="Edit TODO Item Description"
+          required
+        />
+        </div>
+        <button className={styles.button} type="submit">Save</button>
+      </form>
+       <ul className={styles.todoList}>
+       {todos.length===0 && <h1 className={styles.noTodos}>NOTHING IN YOUR TODOS AT THE TIME !</h1>}
         {todos.map(todo => (
           <li className={styles.todoItem} key={todo._id}>
-            <div>
+            <div className={styles.todosData}>
               <h3>{todo.title}</h3>
-              <p>{todo.description}</p>
+              <p className={styles.todoDesc}>{todo.description}</p>
+              <p className={styles.todoDate}>{todo.updatedAt}</p>
             </div>
-            <button className={styles.deleteButton} onClick={() => deleteTodo(todo._id)}>Delete</button>
-          </li>
+            <div className={styles.controlBtns}>
+                <button className={styles.deleteButton} onClick={() => deleteTodo(todo._id)}><FontAwesomeIcon icon={faTrashAlt} /></button>
+                <button className={styles.editButton} onClick={() => setEditData(todo)}><FontAwesomeIcon icon={faEdit} /></button>
+            </div>
+           </li>
         ))}
       </ul>
+    </div>
     </div>
   );
 };

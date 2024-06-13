@@ -1,26 +1,80 @@
+
+.todos{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  width: 80%;
+  height: 100vh;
+}
+
 .container {
-    max-width: 600px;
-    margin: 0 auto;
+    width: 600px;
+    max-width: 650px;
+    margin: 50px auto;
     padding: 20px;
+    border: 1px solid #6A0DAD;
+    border-radius: 20px;
+    background: linear-gradient(to bottom, #6A0DAD, #c25c8f);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position:sticky;
+    top: 10px;
   }
   
   .form {
     display: flex;
-    flex-direction: column;
+    width: 88%;
     align-items: center;
-    margin-bottom: 20px;
+    justify-content: space-evenly;
+    background: linear-gradient(to right, #6A0DAD, #c25c8f);
+    border-radius: 20px;
+    margin: 20px auto;
+    padding: 20px 0;
+    position: absolute; 
+    top: 0;
+    z-index: 555;
   }
-  
+
+  .editForm .closeEdit{
+    font-size: xx-large;
+    color: black;
+    position: absolute;
+    top: 0;
+    right: 30px;
+  }
+  .editForm .closeEdit:hover{
+    cursor: pointer;
+  }
+  .editForm {
+    display: none;
+    width: 88%;
+    align-items: center;
+    justify-content: space-evenly;
+    background: linear-gradient(to right, #6A0DAD, #c25c8f);
+    border-radius: 20px;
+    margin: 20px auto;
+    padding: 20px 0;
+    position: absolute; 
+    top: 0;
+    z-index: 555;
+  }
+  .noTodos{
+    text-align: center;
+  }
   .inputField {
-    width: 100%;
+    width: 95%;
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #ccc;
     border-radius: 4px;
+    height: 20px;
   }
   
   .button {
-    width: 100%;
+    width: 80px;
     padding: 10px;
     background-color: #28a745;
     color: white;
@@ -33,10 +87,32 @@
   .button:hover {
     background-color: #218838;
   }
-  
+  #editForm{
+    display: none;
+  }
   .todoList {
     list-style: none;
     padding: 0;
+    margin: auto;
+    margin-top: 180px;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    height: 350px;
+    overflow: scroll;
+  }
+
+  .todoList li:nth-child(even){
+    background: linear-gradient(to left, #6A0DAD, #c25c8f);
+  }
+
+  .todoDate{
+    font-style: italic;
+    text-align: center;
+  }
+  .todoList::-webkit-scrollbar{
+    display: none;
   }
   
   .todoItem {
@@ -45,9 +121,12 @@
     align-items: center;
     padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 10px;
     margin-bottom: 10px;
-    background-color: #f7f7f7;
+    width: 90%;
+    color: black;
+    font-weight: 300;
+    background: linear-gradient(to right, #6A0DAD, #c25c8f);
   }
   
   .todoItem h3 {
@@ -55,19 +134,43 @@
   }
   
   .todoItem p {
+    width: 80%;
+    line-height: normal;
+    word-wrap: break-word;
     margin: 5px 0 0 0;
   }
-  
+  button:hover{
+    cursor: pointer;
+  }
   .deleteButton {
-    background-color: #dc3545;
+    background-color: red;
     color: white;
     border: none;
     padding: 5px 10px;
     border-radius: 4px;
     cursor: pointer;
   }
-  
+  .controlBtns{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 30px;
+  }
+  .todosData{
+    width: 95%;
+  }
+  .controlBtns button{
+    height: 35px;
+    width: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   .deleteButton:hover {
     background-color: #c82333;
   }
   
+  .editButton{
+    color: green;
+    border-radius: 5px;
+  }

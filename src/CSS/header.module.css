@@ -10,6 +10,16 @@
     background: inherit;
 }
 
+.sideBar{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    width: 50%;
+    background: inherit;
+}
+
 .logo img{
     width: 120px;
     height: auto;
@@ -21,7 +31,7 @@
     color: black;
 }
 
-.logo{
+.header .logo{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -31,4 +41,14 @@
     top: 10px;
     left: 20px;
 }
+
+.sideBar .logo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+    position: relative;
+}
+
 
