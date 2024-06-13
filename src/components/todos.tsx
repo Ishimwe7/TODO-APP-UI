@@ -171,6 +171,24 @@ const Todos: React.FC = () => {
     }
   };
 
+  const changeStatus = async (e:React.MouseEvent,id: string, status:string) => {
+    e.preventDefault();
+    try {
+      await axios.delete(`/todos/changeStatus/${id}/${status}`, {
+        headers: {
+          Authorization: `Bearer ${loggedUser}`
+        }
+      });
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            console.error('Axios error:', error.response?.data || error.message);
+          } else if (error instanceof Error) {
+            console.error('General error:', error.message);
+          } else {
+            console.error('Unexpected error:', error);
+          }
+    }
+  };
   return (
     <div className={styles.todos}>
       <SideBar/>
@@ -233,8 +251,8 @@ const Todos: React.FC = () => {
             <div className={styles.todosData}>
               <h3>{todo.title}</h3>
               <p className={styles.todoDesc}>{todo.description}</p>
-              {todo.status==='Pending' && <button className={styles.startTodo}>Start</button>}
-              {todo.status==='In Progress' && <button className={styles.progressTodo}>Finish</button>}
+              {todo.status==='Pending' && <button onClick={(e) => changeStatus(e,todo._id,'In Progress')} className={styles.startTodo}>Start</button>}
+              {todo.status==='In Progress' && <button onClick={(e) => changeStatus(e,todo._id,'Completed')} className={styles.progressTodo}>Finish</button>}
               {todo.status==='Completed' && <button disabled className={styles.doneTodo}>Completed</button>}
               <p className={styles.todoDate}>{todo.updatedAt}</p>
             </div>
