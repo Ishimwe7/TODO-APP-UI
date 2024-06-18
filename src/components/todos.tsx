@@ -174,11 +174,18 @@ const Todos: React.FC = () => {
   const changeStatus = async (e:React.MouseEvent,id: string, status:string) => {
     e.preventDefault();
     try {
-      await axios.delete(`/todos/changeStatus/${id}/${status}`, {
-        headers: {
-          Authorization: `Bearer ${loggedUser}`
-        }
-      });
+      console.log('Changing Status ID and Status are: '+ id+' '+ status);
+      const response = await axios.put(`/todos/changeStatus/${id}/${status}`, 
+          {}, 
+            {
+                headers: {
+                    Authorization: `Bearer ${loggedUser}`
+                }
+            }
+        );
+      console.log('Response:', response.data);
+      const updatedTodo = response.data;
+      setTodos(todos.map(todo => (todo._id === id ? updatedTodo : todo)));
     } catch (error) {
         if (axios.isAxiosError(error)) {
             console.error('Axios error:', error.response?.data || error.message);
