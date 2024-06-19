@@ -136,7 +136,7 @@
     overflow: scroll;
   }
 
-  .todoList li:nth-child(even){
+  .todoList li:nth-child(odd){
     background: linear-gradient(to left, #6A0DAD, #c25c8f);
   }
 

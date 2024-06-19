@@ -1,276 +1,177 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import styles from '../CSS/todos.module.css'
+import React, { useEffect, useState, ChangeEvent, FormEvent, MouseEvent } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { fetchTodos, saveTodo, updateTodo, deleteTodo, changeStatus } from '../features/todosSlice';
+import { RootState, AppDispatch } from '../app/store';
+import styles from '../CSS/todos.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt,faEdit, faTimes} from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt, faEdit, faTimes } from '@fortawesome/free-solid-svg-icons';
 import SideBar from './siderBar';
 
-interface Todo {
-  _id: string;
-  title: string;
-  description: string;
-  status: string;
-  updatedAt: string;
-}
-
-interface TodoFormData {
-  title: string;
-  description: string;
-}
-interface EditTodoFormData {
-  id:string;
-  title: string;
-  description: string;
-  status: string;
-}
 const Todos: React.FC = () => {
-  const cookies = document.cookie;
-  //const cookiesToken = document.cookie.split('jwt=')[1]
-  //const sessionToken = sessionStorage.getItem('loggedUser');
- console.log(cookies);
-  const navigate = useNavigate()
-  let loggedUser = sessionStorage.getItem('loggedUser');
-  if(loggedUser){
-    loggedUser=JSON.parse(loggedUser).token;
-  }
-  if(!loggedUser){
-    navigate('/login');
-  }
+  const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
+  const todos = useSelector((state: RootState) => state.todos.todos);
+  const token = JSON.parse(sessionStorage.getItem('loggedUser') || '{}').token;
 
-  const [todos, setTodos] = useState<Todo[]>([]);
-  const [formData, setFormData] = useState<TodoFormData>({
-    title: '',
-    description: ''
-  });
-
-  const [editFormData, setEditFormData] = useState<EditTodoFormData>({
-    id:'',
+  const [formData, setFormData] = useState({
     title: '',
     description: '',
-    status:''
+    status:'Pending'
   });
 
-  //const { title, description } = formData;
+  const [editFormData, setEditFormData] = useState({
+    id: '',
+    title: '',
+    description: '',
+    status: ''
+  });
+
   useEffect(() => {
-    const fetchTodos = async () => {
-      const response = await axios.get('/todos/getAllTodos', {
-        headers: {
-          Authorization: `Bearer ${loggedUser}`
-        }
-      });
-      console.log(response.data);
-      if (Array.isArray(response.data)) {
-        setTodos(response.data);
-      } else {
-        console.error('Unexpected response format:', response.data);
-        console.log('Response',response.data)
-        //setTodos([]); 
-      }
-      setTodos(response.data);
-    };
+    if (token) {
+      dispatch(fetchTodos(token));
+    } else {
+      navigate('/login');
+    }
+  }, [dispatch, token, navigate]);
 
-    fetchTodos();
-  }, [loggedUser]);
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, [e.target.name]: e.target.value });
+  const onEditChange = (e: ChangeEvent<HTMLInputElement>) => setEditFormData({ ...editFormData, [e.target.name]: e.target.value });
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, [e.target.name]: e.target.value });
-  const onEditChange = (e: React.ChangeEvent<HTMLInputElement>) => setEditFormData({ ...editFormData, [e.target.name]: e.target.value });
-  const setEditData = (todo: Todo) => {
+  const setEditData = (todo: { _id: string; title: string; description: string; status: string }) => {
     const addForm = document.getElementById('addForm');
     const editForm = document.getElementById('editForm');
-    if(addForm){
-      addForm.style.display='none'
-    }
-    if(editForm){
-      editForm.style.display='flex'
-    }
+    if (addForm) addForm.style.display = 'none';
+    if (editForm) editForm.style.display = 'flex';
     setEditFormData({
       id: todo._id,
       title: todo.title,
       description: todo.description,
-      status:todo.status
+      status: todo.status
     });
   };
 
-  const closeEditForm = (e:React.MouseEvent) => {
+  const closeEditForm = (e: MouseEvent) => {
     e.preventDefault();
     const addForm = document.getElementById('addForm');
     const editForm = document.getElementById('editForm');
-    if(editForm){
-      editForm.style.display='none'
-    }
-    if(addForm){
-      addForm.style.display='flex'
-    }
+    if (editForm) editForm.style.display = 'none';
+    if (addForm) addForm.style.display = 'flex';
     setEditFormData({
       id: '',
       title: '',
       description: '',
-      status:''
+      status: ''
     });
   };
-  const onSubmit = async (e: React.FormEvent) => {
+
+  const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    try {
-      const response = await axios.post('/todos/saveTodo', formData, {
-        headers: {
-          Authorization: `Bearer ${loggedUser}`
-        }
-      });
-      setTodos([...todos, response.data]);
-      setFormData({ title: '', description: '' });
-    } catch (error) {
-        if (axios.isAxiosError(error)) {
-            console.error('Axios error:', error.response?.data || error.message);
-          } else if (error instanceof Error) {
-            console.error('General error:', error.message);
-          } else {
-            console.error('Unexpected error:', error);
-          }
-    }
+    dispatch(saveTodo({
+      todo: formData,
+      token
+    }));
+    setFormData({ title: '', description: '', status: 'Pending' });
   };
 
-
-  const editTodo = async (e: React.FormEvent,id:string) => {
+  const editTodo = (e: FormEvent, id: string) => {
     e.preventDefault();
-    try {
-      const response = await axios.put(`/todos/updateTodo/${id}`, editFormData, {
-        headers: {
-          Authorization: `Bearer ${loggedUser}`
-        }
-      });
-      setTodos([...todos, response.data]);
-      setEditFormData({id:'', title: '', description: '',status:'' });
-    } catch (error) {
-        if (axios.isAxiosError(error)) {
-            console.error('Axios error:', error.response?.data || error.message);
-          } else if (error instanceof Error) {
-            console.error('General error:', error.message);
-          } else {
-            console.error('Unexpected error:', error);
-          }
-    }
+    dispatch(updateTodo({
+      id,
+      updatedTodo: editFormData,
+      token
+    }));
+    closeEditForm(e as unknown as MouseEvent<HTMLParagraphElement>);
   };
 
-  const deleteTodo = async (id: string) => {
-    try {
-      await axios.delete(`/todos/deleteTodo/${id}`, {
-        headers: {
-          Authorization: `Bearer ${loggedUser}`
-        }
-      });
-      setTodos(todos.filter(todo => todo._id !== id));
-    } catch (error) {
-        if (axios.isAxiosError(error)) {
-            console.error('Axios error:', error.response?.data || error.message);
-          } else if (error instanceof Error) {
-            console.error('General error:', error.message);
-          } else {
-            console.error('Unexpected error:', error);
-          }
-    }
+  const removeTodo = (id: string) => {
+    dispatch(deleteTodo({ id, token }));
   };
 
-  const changeStatus = async (e:React.MouseEvent,id: string, status:string) => {
+  const updateStatus = (e: MouseEvent, id: string, status: string) => {
     e.preventDefault();
-    try {
-      console.log('Changing Status ID and Status are: '+ id+' '+ status);
-      const response = await axios.put(`/todos/changeStatus/${id}/${status}`, 
-          {}, 
-            {
-                headers: {
-                    Authorization: `Bearer ${loggedUser}`
-                }
-            }
-        );
-      console.log('Response:', response.data);
-      const updatedTodo = response.data;
-      setTodos(todos.map(todo => (todo._id === id ? updatedTodo : todo)));
-    } catch (error) {
-        if (axios.isAxiosError(error)) {
-            console.error('Axios error:', error.response?.data || error.message);
-          } else if (error instanceof Error) {
-            console.error('General error:', error.message);
-          } else {
-            console.error('Unexpected error:', error);
-          }
-    }
+    dispatch(changeStatus({
+      id,
+      status,
+      token
+    }));
   };
+
   return (
     <div className={styles.todos}>
-      <SideBar/>
+      <SideBar />
       <div className={styles.container}>
-      <form id='addForm' className={styles.form} onSubmit={onSubmit}>
-        <div className={styles.input}>
-        <input
-          className={styles.inputField}
-          type="text"
-          name="title"
-          value={formData.title}
-          maxLength={50}
-          onChange={onChange}
-          placeholder="Add TODO Item Title"
-          required
-        />
-        <input
-          className={styles.inputField}
-          type="text"
-          name="description"
-          value={formData.description}
-          maxLength={150}
-          onChange={onChange}
-          placeholder="Add TODO Item Description"
-          required
-        />
-        </div>
-        <button className={styles.button} type="submit">Add Todo</button>
-      </form>
-      <form id='editForm' className={styles.editForm} onSubmit={(e) => editTodo(e, editFormData.id)}>
-        <p onClick={(e)=>{closeEditForm(e)}} className={styles.closeEdit}><FontAwesomeIcon icon={faTimes} /></p>
-        <div className={styles.input}>
-        <input
-          className={styles.inputField}
-          type="text"
-          name="title"
-          value={editFormData.title}
-          maxLength={50}
-          onChange={onEditChange}
-          placeholder="Edit TODO Item Title"
-          required
-        />
-        <input
-          className={styles.inputField}
-          type="text"
-          name="description"
-          value={editFormData.description}
-          maxLength={150}
-          onChange={onEditChange}
-          placeholder="Edit TODO Item Description"
-          required
-        />
-        </div>
-        <button className={styles.button} type="submit">Save</button>
-      </form>
-       <ul className={styles.todoList}>
-       {todos.length===0 && <h1 className={styles.noTodos}>NOTHING IN YOUR TODOS AT THE TIME !</h1>}
-        {todos.map((todo) => (
-          <li className={styles.todoItem} key={todo._id}>
-            <div className={styles.todosData}>
-              <h3>{todo.title}</h3>
-              <p className={styles.todoDesc}>{todo.description}</p>
-              {todo.status==='Pending' && <button onClick={(e) => changeStatus(e,todo._id,'In Progress')} className={styles.startTodo}>Start</button>}
-              {todo.status==='In Progress' && <button onClick={(e) => changeStatus(e,todo._id,'Completed')} className={styles.progressTodo}>Finish</button>}
-              {todo.status==='Completed' && <button disabled className={styles.doneTodo}>Completed</button>}
-              <p className={styles.todoDate}>{todo.updatedAt}</p>
-            </div>
-            <div className={styles.controlBtns}>
-                <button className={styles.deleteButton} onClick={() => deleteTodo(todo._id)}><FontAwesomeIcon icon={faTrashAlt} /></button>
+        <form id='addForm' className={styles.form} onSubmit={onSubmit}>
+          <div className={styles.input}>
+            <input
+              className={styles.inputField}
+              type="text"
+              name="title"
+              value={formData.title}
+              maxLength={50}
+              onChange={onChange}
+              placeholder="Add TODO Item Title"
+              required
+            />
+            <input
+              className={styles.inputField}
+              type="text"
+              name="description"
+              value={formData.description}
+              maxLength={150}
+              onChange={onChange}
+              placeholder="Add TODO Item Description"
+              required
+            />
+          </div>
+          <button className={styles.button} type="submit">Add Todo</button>
+        </form>
+        <form id='editForm' className={styles.editForm} onSubmit={(e) => editTodo(e, editFormData.id)}>
+          <p onClick={(e) => closeEditForm(e)} className={styles.closeEdit}><FontAwesomeIcon icon={faTimes} /></p>
+          <div className={styles.input}>
+            <input
+              className={styles.inputField}
+              type="text"
+              name="title"
+              value={editFormData.title}
+              maxLength={50}
+              onChange={onEditChange}
+              placeholder="Edit TODO Item Title"
+              required
+            />
+            <input
+              className={styles.inputField}
+              type="text"
+              name="description"
+              value={editFormData.description}
+              maxLength={150}
+              onChange={onEditChange}
+              placeholder="Edit TODO Item Description"
+              required
+            />
+          </div>
+          <button className={styles.button} type="submit">Save</button>
+        </form>
+        <ul className={styles.todoList}>
+          {todos.length === 0 && <h1 className={styles.noTodos}>NOTHING IN YOUR TODOS AT THE TIME!</h1>}
+          {todos.map((todo) => (
+            <li className={styles.todoItem} key={todo._id}>
+              <div className={styles.todosData}>
+                <h3>{todo.title}</h3>
+                <p className={styles.todoDesc}>{todo.description}</p>
+                {todo.status === 'Pending' && <button onClick={(e) => updateStatus(e, todo._id, 'In Progress')} className={styles.startTodo}>Start</button>}
+                {todo.status === 'In Progress' && <button onClick={(e) => updateStatus(e, todo._id, 'Completed')} className={styles.progressTodo}>Finish</button>}
+                {todo.status === 'Completed' && <button disabled className={styles.doneTodo}>Completed</button>}
+                <p className={styles.todoDate}>{todo.updatedAt}</p>
+              </div>
+              <div className={styles.controlBtns}>
+                <button className={styles.deleteButton} onClick={() => removeTodo(todo._id)}><FontAwesomeIcon icon={faTrashAlt} /></button>
                 <button className={styles.editButton} onClick={() => setEditData(todo)}><FontAwesomeIcon icon={faEdit} /></button>
-            </div>
-           </li>
-        ))}
-      </ul>
-    </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
