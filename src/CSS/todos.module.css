@@ -241,108 +241,133 @@
     border-radius: 5px;
   }
 
-  /* Responsive Styles */
-@media (max-width: 1024px) {
-  .container {
-    width: 90%;
-  }
+/* *******************RESPONSIVE STYLES************** */
 
-  .form, .editForm {
-    flex-direction: column;
-    padding: 10px;
-    width: 100%;
-  }
-
-  .inputField {
-    width: 100%;
-  }
-
-  .todoItem {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .controlBtns {
-    flex-direction: row;
-    width: 100%;
-    justify-content: space-between;
-  }
-}
-
-@media (max-width: 768px) {
-  .todos {
-    width: 100%;
-    height: auto;
-    flex-direction: column;
-    margin-top: 200px;
-  }
-
-  .container {
-    width: 90%;
-    padding: 10px;
-    margin-top: 20px;
-  }
-
-  .form, .editForm {
-    width: 90%;
-    padding: 10px;
-    position: relative;
-    margin: auto;
-    justify-content: center;
-    align-items: center;
-  }
- .inputField{
+@media only screen and (max-width: 484px) {
+  .todos{
   width: 100%;
- }
-  .button {
-    width: 78%;
+  height:auto;
+  flex-direction: column;
+} 
+
+.container {
+    width: 89%;
+    margin:auto;
+    position:relative;
     padding: 10px;
-    margin-top: 10px;
+  }
+  
+  .form {
+    flex-direction: column;
+    position: relative;
+    width: 100%;
     margin: auto;
+    padding: 10px 0;
+  }
+
+  .editForm {
+    display: none;
+    width: 82%;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to right, #6A0DAD, #c25c8f);
+    border-radius: 20px;
+    margin: 20px auto;
+    padding: 20px;
+    position: absolute; 
+    top: 0;
+    z-index: 555;
+  }
+  
+  .startTodo{
+    width: 100px;
+    height: 30px;
+    font-size: medium;
+  }
+
+  .progressTodo{
+    width: 100px;
+    height: 30px;
+    font-size: medium;
+  }
+  .doneTodo{
+    width: 100px;
+    height: 30px;
+    font-size: medium;
+  }
+  .noTodos{
+    margin-top: 70px;
+  }
+  .editForm .inputField{
+    width: 95%;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 20px;
+  }
+
+  .form .inputField {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 20px;
+  }
+  
+  .button {
+    width: 80%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+
+  .saveClose{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin: auto;
+  }
+
+  .saveButton{
+    background-color: #28a745;
+    width: 80px;
+    height: 30px;
+    padding: 8px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+  }
+
+   .editForm .closeEdit{
+    font-size: x-large;
   }
 
   .todoList {
-    margin-top: 20px;
-    height: auto;
+    padding: 0;
+    margin: auto;
+    margin-top: 30px;
+    width: 98%;
+    height: fit-content;
   }
 
+  
   .todoItem {
-    width: 90%;
-    position: relative;
-  }
-  .todosData{
-    width: 95%;
-  }
-  .controlBtns {
-    position: absolute;
-    flex-direction: column;
-    gap: 10px;
-    justify-content: center;
-    top: 20px;
-    right: 20px;
-    width: 30px;
-  }
-}
-
-@media (max-width: 480px) {
-  .container {
-    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    width: 93%;
   }
 
-  .form, .editForm {
-    padding: 5px;
-  }
-
-  .button {
-    padding: 5px;
-    margin-top: 5px;
-  }
-
-  .todoItem {
-    padding: 5px;
-  }
-
-  .controlBtns {
-    gap: 5px;
+  .controlBtns button{
+    height: 30px;
+    width: 20px;
   }
 }

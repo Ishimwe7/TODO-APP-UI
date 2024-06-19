@@ -63,44 +63,28 @@
 }
 
 
-@media (max-width: 768px) {
-    .sideBar{
-        position: fixed;
-        top: 0;
-        z-index: 555;
-        background: #370a57;
-        padding-bottom: 0;
-        width: 100%;
-    }
-    .header .logo{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 0;
-        margin: auto;
-    }
+/* *******************RESPONSIVE STYLES************** */
+
+@media only screen and (max-width: 484px) {
+  .sideBar{
+    flex-direction:row;
+    justify-content: space-between;
+    width: 90%;
+    padding: 20px;
+  }
+  .logo img{
+    width: 80px;
 }
 
-@media (max-width: 480px) {
-    .header{
-        position: fixed;
-        top: 0;
-        z-index: 555;
-        background: #370a57;
-        padding-bottom: 0;
-        display: flex;
-        justify-content: center;
-        margin: auto;
-        align-items: center;
-        width: 100%;
-    }
-    .header .logo{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 0;
-        margin: auto;
-    }
+
+.logo p{
+    font-size: large;
+    color: black;
+}
+.logoutBtn{
+    font-size: larger;
+    margin-top: 0;
+}
+
+
 }
