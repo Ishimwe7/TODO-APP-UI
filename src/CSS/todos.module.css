@@ -37,17 +37,7 @@
     top: 0;
     z-index: 555;
   }
-
-  .editForm .closeEdit{
-    font-size: xx-large;
-    color: black;
-    position: absolute;
-    top: 0;
-    right: 30px;
-  }
-  .editForm .closeEdit:hover{
-    cursor: pointer;
-  }
+  
   .startTodo{
     background-color: white;
     width: 100px;
@@ -83,13 +73,13 @@
   }
   .editForm {
     display: none;
-    width: 88%;
+    width: 82%;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: center;
     background: linear-gradient(to right, #6A0DAD, #c25c8f);
     border-radius: 20px;
     margin: 20px auto;
-    padding: 20px 0;
+    padding: 20px;
     position: absolute; 
     top: 0;
     z-index: 555;
@@ -97,7 +87,19 @@
   .noTodos{
     text-align: center;
   }
-  .inputField {
+  .editForm .input{
+    margin: auto;
+  }
+  .editForm .inputField{
+    width: 88%;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 20px;
+  }
+
+  .form .inputField {
     width: 95%;
     padding: 10px;
     margin: 10px 0;
@@ -123,6 +125,36 @@
   #editForm{
     display: none;
   }
+
+  .saveClose{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin: auto;
+  }
+
+  .saveButton{
+    background-color: #28a745;
+    width: 80px;
+    height: 30px;
+    padding: 8px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+  }
+
+  .editForm .closeEdit:hover{
+    cursor: pointer;
+  }
+
+   .editForm .closeEdit{
+    font-size: xx-large;
+    color: black;
+    margin: 0;
+  }
+
   .todoList {
     list-style: none;
     padding: 0;

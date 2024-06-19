@@ -127,7 +127,6 @@ const Todos: React.FC = () => {
           <button className={styles.button} type="submit">Add Todo</button>
         </form>
         <form id='editForm' className={styles.editForm} onSubmit={(e) => editTodo(e, editFormData.id)}>
-          <p onClick={(e) => closeEditForm(e)} className={styles.closeEdit}><FontAwesomeIcon icon={faTimes} /></p>
           <div className={styles.input}>
             <input
               className={styles.inputField}
@@ -150,7 +149,10 @@ const Todos: React.FC = () => {
               required
             />
           </div>
-          <button className={styles.button} type="submit">Save</button>
+          <div className={styles.saveClose}>
+             <p onClick={(e) => closeEditForm(e)} className={styles.closeEdit}><FontAwesomeIcon icon={faTimes} /></p>
+             <button className={styles.saveButton} type="submit">Save</button>
+          </div>
         </form>
         <ul className={styles.todoList}>
           {todos.length === 0 && <h1 className={styles.noTodos}>NOTHING IN YOUR TODOS AT THE TIME!</h1>}
