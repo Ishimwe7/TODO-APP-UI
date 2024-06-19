@@ -26,10 +26,13 @@ const Todos: React.FC = () => {
     description: '',
     status: ''
   });
+   const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     if (token) {
-      dispatch(fetchTodos(token));
+      dispatch(fetchTodos(token))
+      .then(() => setLoading(false)) 
+      .catch(() => setLoading(false));
     } else {
       navigate('/login');
     }
@@ -155,7 +158,8 @@ const Todos: React.FC = () => {
           </div>
         </form>
         <ul className={styles.todoList}>
-          {todos.length === 0 && <h1 className={styles.noTodos}>NOTHING IN YOUR TODOS AT THE TIME!</h1>}
+          {loading && <h1 className={styles.noTodos}>Loading your Todos! Please wait</h1>}
+          {!loading && todos.length === 0 && <h1 className={styles.noTodos}>NOTHING IN YOUR TODOS AT THE TIME!</h1>}
           {todos.map((todo) => (
             <li className={styles.todoItem} key={todo._id}>
               <div className={styles.todosData}>
