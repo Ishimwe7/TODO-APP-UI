@@ -1,5 +1,5 @@
 .loginForm{
-  margin: 120px auto;
+  margin: 120px auto 0 auto;
   width: 35%;
   text-align: center;
   background: linear-gradient(to bottom, #6A0DAD, #c25c8f);
@@ -38,8 +38,6 @@
     min-height: 270px;
     margin: auto;
   }
-  
-
 
   .inputField {
     width: 95%;
@@ -50,11 +48,11 @@
     color: white;
     font-size: large;
     border: 1px solid #6A0DAD;
-    border-radius: 10px;
+    border-radius: 20px;
   }
   
   .button {
-    width: 70%;
+    width: 100%;
     padding: 10px;
     height: 40px;
     background-color:#6A0DAD;
@@ -76,10 +74,11 @@
   .loginForm {
     width: 50%;
     padding: 15px;
+    margin-top: 190px;
   }
 
   .button {
-    width: 80%;
+    width: 94%;
     padding: 8px;
     height: 35px;
     font-size: medium;
@@ -92,58 +91,80 @@
     font-size: medium;
   }
 }
-
-@media (max-width: 768px) {
+@media (max-width: 992px) {
   .loginForm {
-    width: 70%;
+    width: 60%;
     padding: 15px;
-    margin: 60px auto;
-  }
-
-  .formContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    max-width: 350px;
-    min-height: 240px;
-    margin: auto;
+    margin-top: 0;
   }
 
   .button {
-    width: 85%;
-    padding: 8px;
-    height: 35px;
+    width: 98%;
+    padding: 10px;
+    height: 38px;
     font-size: medium;
   }
 
   .inputField {
-    width: 85%;
+    width: 95%;
     height: 28px;
     padding: 8px;
     font-size: medium;
   }
 }
-
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .loginForm {
-    width: 80%;
+    width: 75%;
     padding: 10px;
-    margin: 40px auto;
-    margin-top: 180px;
+    margin: 30px auto;
   }
 
+  .loginForm h1{
+    margin: 0 auto;
+  }
   .button {
-    width: 100%;
-    padding: 6px;
-    height: 30px;
-    font-size: small;
+    width: 98%;
+    padding: 6px 20px;
+    height: 35px;
+    font-size: medium;
   }
 
   .inputField {
-    width: 100%;
+    width: 88%;
     height: 25px;
-    padding: 6px;
+    padding: 6px 20px;
+    font-size: small;
+  }
+
+  .loginForm p {
+    font-size: medium;
+  }
+
+  .error, .success {
+    font-size: medium;
+  }
+}
+
+@media (max-width: 484px) {
+
+  .loginForm {
+    width: 90%;
+    padding: 10px;
+    margin: 10px;
+  }
+  .formContainer{
+    margin: auto;
+  }
+   .inputField {
+    width: 85%;
+    height: 25px;
+    padding: 6px 20px;
+    font-size: small;
+  }
+  .button{
+    font-size: small;
+  }
+  .inputField {
     font-size: small;
   }
 

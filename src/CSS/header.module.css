@@ -65,6 +65,58 @@
 
 /* *******************RESPONSIVE STYLES************** */
 
+@media only screen and (max-width: 1024px) {
+  .sideBar{
+    flex-direction:row;
+    justify-content: space-between;
+    width: 61%;
+    padding: 20px;
+  }
+  .logo img{
+    width: 100px;
+}
+
+
+.logo p{
+    font-size: xx-large;
+}
+.logoutBtn{
+    font-size: xx-large;
+    margin-top: 0;
+}
+
+}
+
+@media only screen and (max-width: 992px) {
+  .sideBar{
+    flex-direction:row;
+    justify-content: space-between;
+    width: 80%;
+    padding: 20px;
+  }
+  .logo img{
+    width: 100px;
+}
+.header{
+    position: relative;
+    width: 90%;
+}
+.header .logo{
+    position: relative;
+    left: 0;
+}
+
+.logo p{
+    font-size: xx-large;
+}
+.logoutBtn{
+    font-size: xx-large;
+    margin-top: 0;
+}
+
+}
+
+
 @media only screen and (max-width: 484px) {
   .sideBar{
     flex-direction:row;
@@ -75,16 +127,43 @@
   .logo img{
     width: 80px;
 }
+.header{
+    position: relative;
+    width: 90%;
+}
+.header .logo{
+    position: relative;
+    left: 0;
+}
 
+.logo p{
+    font-size: x-large;
+}
+.logoutBtn{
+    font-size: x-large;
+    margin-top: 0;
+}
+}
+
+
+@media only screen and (max-width: 300px) {
+
+  .sideBar{
+    width: 95%;
+    padding: 20px;
+  }
+  .logo img{
+    width: 60px;
+}
+.header .logo{
+    position: relative;
+    left: 0;
+}
 
 .logo p{
     font-size: large;
-    color: black;
 }
 .logoutBtn{
-    font-size: larger;
-    margin-top: 0;
+    font-size: large;
 }
-
-
 }
